@@ -1,4 +1,4 @@
-import Page from '@/components/path/home/Page';
+import Page from '@/components/path/instagram/Page';
 
 export default function Home() {
     return (
