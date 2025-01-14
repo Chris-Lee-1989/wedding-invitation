@@ -155,13 +155,15 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                                 componentSize="large"
                                 theme={{ 
                                     token: { 
-                                        colorPrimary: '#38bdf8',
+                                        colorPrimary: '#222',
                                     } 
                                 }}
                             >
                                 <ErrorBoundary FallbackComponent={ErrorHandler}>
                                     <NaverScriptInit>
+                                        <div style={{width: '100%', maxWidth: '400px', margin: 'auto', boxShadow: 'rgba(0, 0, 0, 0.1) 0px 2px 15px 0px', minHeight: '100dvh'}}>
                                         {children}
+                                        </div>
                                     </NaverScriptInit>
                                 </ErrorBoundary>
                             </ConfigProvider>
