@@ -15,10 +15,12 @@ const serif = PT_Serif({ subsets: ['latin'], weight: ['400']});
 const Components = () => {
 
     const calendarSize = 40;
-
     const count = useCountDown({
         targetDate: dayjs('2025-03-29 14:00:00'),
         interval: 1000,
+        onEnd: () => {
+            console.log('end');
+        }
     });
 
     return (
