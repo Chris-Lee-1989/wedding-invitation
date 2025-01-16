@@ -37,7 +37,7 @@ const Components = () => {
                     </div>
                 </div>
             </div>
-            <div className="w-full h-4 absolute z-10 -translate-y-4" >
+            <div className="w-full h-4 absolute z-10 -translate-y-4" style={{maxWidth: 400}} >
                 <Connection color="#f8fafc" />
             </div>
         </Fragment>

@@ -12,10 +12,10 @@ const Components = ({error, resetErrorBoundary}: any) => {
     // 라우터
     const router = useRouter();
 
-    const sendJandi = useJandi();
-    useMount(() => {
-        sendJandi.mutate({type: 'error', message: JSON.stringify(error)});
-    });
+    // const sendJandi = useJandi();
+    // useMount(() => {
+    //     sendJandi.mutate({type: 'error', message: JSON.stringify(error)});
+    // });
     
 
     return (

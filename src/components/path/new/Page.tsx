@@ -18,8 +18,9 @@ import { FloatButton } from 'antd';
 import { FaPlay } from "react-icons/fa6";
 import { FaPause } from "react-icons/fa";
 import { HiOutlineSpeakerWave, HiOutlineSpeakerXMark } from "react-icons/hi2";
+import Accounts from './Accounts';
 
-
+let isAutoPlay = true;
 const Components = () => {
 
     // AOS
@@ -39,31 +40,47 @@ const Components = () => {
         }
     };
 
-    const onPlay = () => {
+    const [isPlay, setIsPlay] = useState<boolean>(audioRef.current?.paused||false);
+    const onPlay = useCallback(() => {
         if (audioRef.current) {
-            if (audioRef.current.paused) {
-                audioRef.current.play().then(() => setIsPlay(true)).catch(() => setIsPlay(false));
+            if (audioRef.current.paused && isAutoPlay) {
+                audioRef.current.play()
+                .then(() => {
+                    setIsPlay(true)
+                })
+                .catch((error) => {
+                    console.error(error);
+                    setIsPlay(false)
+                });
             }
         }
-    };
+    }, []);
 
-    const [isPlay, setIsPlay] = useState<boolean>(audioRef.current?.paused||false);
 
     useMount(() => {
         document.addEventListener('scroll', onPlay);
-        document.addEventListener('visibilitychange', handleAudioToggle);
     });
 
     useUnmount(() => {
         document.removeEventListener('scroll', onPlay);
-        document.removeEventListener('visibilitychange', handleAudioToggle);
     })
-    
+
     return (
-        <Fragment>
+        <div>
+            <input type="hidden" id="audio" value="on" />
             <audio ref={audioRef} src="/bgm.mp3" loop />
             <FloatButton 
-                onClick={handleAudioToggle}
+                onClick={() => {
+                    if (isPlay) {
+                        isAutoPlay = false;
+                        setIsPlay(false);
+                        audioRef.current?.pause();
+                    } else {
+                        isAutoPlay = true;
+                        setIsPlay(true);
+                        audioRef.current?.play();
+                    }
+                }}
                 icon={isPlay ? <HiOutlineSpeakerWave /> : <HiOutlineSpeakerXMark />}
             />
             <Main />
@@ -73,8 +90,9 @@ const Components = () => {
             <Map />
             <Transportation />
             <Infomation />
+            <Accounts />
             <Board />
-        </Fragment>
+        </div>
     )
     
 }

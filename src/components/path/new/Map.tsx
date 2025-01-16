@@ -1,5 +1,5 @@
 "use client"
-import React, { Fragment } from 'react';
+import React, { Fragment, useLayoutEffect } from 'react';
 
 // 폰트
 import { Parisienne, Gowun_Dodum, PT_Serif } from 'next/font/google'
@@ -12,11 +12,17 @@ import { IoSubwayOutline } from "react-icons/io5";
 import { IoCarSportOutline } from "react-icons/io5";
 import { LuCircleParking } from "react-icons/lu";
 import Connection from '@/components/layout/Connection';
+import { initMap } from '@/modules/map';
 
 const Components = () => {
-
+    
     // 메시지
     const [messageApi, contextHolder] = message.useMessage();
+
+
+    useLayoutEffect(() => {
+        initMap({lat: 37.511183, lng: 127.03153});
+    }, []);
 
     // 복사 버튼 클릭 이벤트
     const onClickCopyButton = (accountsNum: string) => {
@@ -75,10 +81,10 @@ const Components = () => {
                 <div className="h-10" />
                 
                 {/* 교통 수단 */}
-                <div className={`flex flex-col ${gowun.className} w-full`} style={{width: '90%', margin: 'auto'}} data-aos="fade-up" data-aos-duration="800">
+                <div className={`flex flex-col ${gowun.className} w-full`} style={{width: '90%', margin: 'auto'}}>
 
                     {/* 버스 */}
-                    <div className="flex flex-col mb-8">
+                    <div data-aos="fade-up" data-aos-duration="800" className="flex flex-col mb-8">
                         {/* 타이틀 */}
                         <div className="flex gap-2 items-center border-b border-b-slate-300 border-dashed pb-3 mb-3">
                             <div className="w-9 h-9 rounded-full border border-slate-100 bg-white shadow-sm  flex items-center justify-center">
@@ -109,7 +115,7 @@ const Components = () => {
                     </div>
 
                     {/* 지하철 */}
-                    <div className="flex flex-col mb-8">
+                    <div data-aos="fade-up" data-aos-duration="800" className="flex flex-col mb-8">
                         {/* 타이틀 */}
                         <div className="flex gap-2 items-center border-b border-b-slate-300 border-dashed pb-3 mb-3">
                             <div className="w-9 h-9 rounded-full border border-slate-100 bg-white shadow-sm  flex items-center justify-center">
@@ -135,7 +141,7 @@ const Components = () => {
                     </div>
 
                     {/* 자가용 */}
-                    <div className="flex flex-col mb-8">
+                    <div data-aos="fade-up" data-aos-duration="800" className="flex flex-col mb-8">
                         {/* 타이틀 */}
                         <div className="flex gap-2 items-center border-b border-b-slate-300 border-dashed pb-3 mb-3">
                             <div className="w-9 h-9 rounded-full border border-slate-100 bg-white shadow-sm  flex items-center justify-center">
@@ -169,7 +175,7 @@ const Components = () => {
                     </div>
 
                     {/* 주차 */}
-                    <div className="flex flex-col mb-8">
+                    <div data-aos="fade-up" data-aos-duration="800" className="flex flex-col mb-8">
                         {/* 타이틀 */}
                         <div className="flex gap-2 items-center border-b border-b-slate-300 border-dashed pb-3 mb-3">
                             <div className="w-9 h-9 rounded-full border border-slate-100 bg-white shadow-sm  flex items-center justify-center">
@@ -192,7 +198,7 @@ const Components = () => {
 
                 </div>
             </div>
-            <div className="w-full h-4 absolute z-10 -translate-y-4" >
+            <div className="w-full h-4 absolute z-10 -translate-y-4" style={{maxWidth: 400}} >
                 <Connection color="#fff" />
             </div>
         </Fragment>

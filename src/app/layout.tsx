@@ -32,11 +32,11 @@ declare global {
 
 // 메타데이터
 export const metadata: Metadata = {
-    title: "청첩장",
-    applicationName: "청첩장",
-    description: "청첩장",
+    title: "이윤민❤️김준형 결혼합니다.",
+    applicationName: "이윤민❤️김준형 결혼합니다.",
+    description: "이윤민❤️김준형 결혼합니다.",
     appleWebApp: {
-        title: '청첩장',
+        title: '이윤민❤️김준형 결혼합니다.',
         capable: true,
         startupImage: [
             {
@@ -62,10 +62,10 @@ export const metadata: Metadata = {
         type: 'website',
         images: [
             {
-                url: "https://kkotfarm-dev-ops.s3.ap-northeast-2.amazonaws.com/wedding/link_image.jpeg",
+                url: "https://kkotfarm-dev-ops.s3.ap-northeast-2.amazonaws.com/wedding/link_image2.jpeg",
                 alt: "image",
-                width: "1280",
-                height: "868",
+                width: "1468",
+                height: "1632",
             }
         ],
         description: "2025.03.29 SAT PM 14:00 엘리에나호텔 컨벤션홀 2층",
@@ -156,15 +156,21 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                                 theme={{ 
                                     token: { 
                                         colorPrimary: '#999',
-                                    } 
+                                    },
+                                    components: {
+                                        Input: {
+                                            controlOutlineWidth: 0,
+                                            fontFamily: `'__Gowun_Dodum_41ed10', '__Gowun_Dodum_Fallback_41ed10'`
+                                        }
+                                    }
                                 }}
                             >
                                 <ErrorBoundary FallbackComponent={ErrorHandler}>
-                                    {/* <NaverScriptInit> */}
+                                    <NaverScriptInit>
                                         <div style={{width: '100%', maxWidth: '400px', margin: 'auto', boxShadow: 'rgba(0, 0, 0, 0.1) 0px 2px 15px 0px', minHeight: '100dvh', overflow: 'hidden'}}>
                                         {children}
                                         </div>
-                                    {/* </NaverScriptInit> */}
+                                    </NaverScriptInit>
                                 </ErrorBoundary>
                             </ConfigProvider>
                         </AntdRegistry>
