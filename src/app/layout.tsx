@@ -90,6 +90,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import 'dayjs/locale/ko';
 dayjs.locale('ko');
 import ko_KR from 'antd/locale/ko_KR';
+import Layout from "@/components/layout/Layout";
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode; }>) {
 
@@ -167,9 +168,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                             >
                                 <ErrorBoundary FallbackComponent={ErrorHandler}>
                                     <NaverScriptInit>
-                                        <div style={{width: '100%', maxWidth: '400px', margin: 'auto', boxShadow: 'rgba(0, 0, 0, 0.1) 0px 2px 15px 0px', minHeight: '100dvh', overflow: 'hidden'}}>
+                                        <Layout>
                                         {children}
-                                        </div>
+                                        </Layout>
                                     </NaverScriptInit>
                                 </ErrorBoundary>
                             </ConfigProvider>

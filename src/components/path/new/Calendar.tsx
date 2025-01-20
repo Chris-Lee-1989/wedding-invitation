@@ -13,17 +13,14 @@ const gowun = Gowun_Dodum({ subsets: ['latin'], weight: ['400']});
 const serif = PT_Serif({ subsets: ['latin'], weight: ['400']});
 
 let interval: any = null;
-const Components = () => {
+
+interface Props {
+    image1: I_Images;
+    image2: I_Images;
+}
+const Components = ({ image1, image2 }: Props) => {
 
     const calendarSize = 40;
-    // const count = useCountDown({
-    //     targetDate: dayjs('2025-03-29 14:00:00'),
-    //     interval: 1000,
-    //     onEnd: () => {
-    //         console.log('end');
-    //     }
-    // });
-
     const [count, setCount] = React.useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
     useMount(() => {
         interval = setInterval(() => {
@@ -50,9 +47,9 @@ const Components = () => {
                         data-aos="fade-up" data-aos-duration="800"
                         className="w-32 h-40 bg-gray-200 rounded-md"
                         style={{
-                            backgroundImage: 'url("https://kkotfarm-dev-ops.s3.ap-northeast-2.amazonaws.com/wedding/left-image2.png?ver=0.2")',
-                            backgroundPosition: '40% 30%',
-                            backgroundSize: '115%',
+                            backgroundImage: `url("${image1.url}")`,
+                            backgroundPosition: '20% 27%',
+                            backgroundSize: '325%',
                         }}
                     >
                         <div style={{width: '100%', height: '100%', background: 'rgba(255,255,255,0)'}} />
@@ -64,9 +61,9 @@ const Components = () => {
                         data-aos="fade-up" data-aos-duration="800" data-aos-delay="100"
                         className="w-32 h-40 bg-gray-200 rounded-md"
                         style={{
-                            backgroundImage: 'url("https://kkotfarm-dev-ops.s3.ap-northeast-2.amazonaws.com/wedding/right-image2.png?ver=0.2")',
-                            backgroundPosition: 'center',
-                            backgroundSize: 'cover',
+                            backgroundImage: `url("${image2.url}")`,
+                            backgroundPosition: '85% 20%',
+                            backgroundSize: '300%',
                         }}
                     >
                         <div style={{width: '100%', height: '100%', background: 'rgba(255,255,255,0)'}} />

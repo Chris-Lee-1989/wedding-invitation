@@ -30,6 +30,13 @@ declare global {
         content: string;
         tags: string;
     }
+
+    interface I_Images {
+        imageKey: number;
+        type: string;
+        url: string;
+        sort: number;
+    }
 }
   
 export {};

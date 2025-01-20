@@ -24,23 +24,29 @@ const api = async (request: NextRequest) => {
         await onVerify(apiParams);
 
         // 쿼리
-        const searchParams = request.nextUrl.searchParams;
-        const type = searchParams.get('type');
+        // const searchParams = request.nextUrl.searchParams;
+        // const keyword = searchParams.get('keyword');
 
-        const sql1 = `
-            SELECT *
-              FROM feeds_tb
-             WHERE 1=1
-               AND type = ${type ? conn.escape(type) : '1'}
-             ORDER BY sort DESC
-        `;
-        const select1 = await conn.query(sql1);
-        const dataSet = select1[0];
+        // 바디
+        const body = await request.json();
+        const {updates} = body;
+        
+        for (const update of updates) {
+            const sql1 = `
+                UPDATE images_tb
+                   SET sort = ${conn.escape(update.next)}
+                 WHERE imageKey = ${conn.escape(update.imageKey)}
+            `;
+            await conn.query(sql1);
+        }
+        await conn.commit();
+
+        // 폼
+        // const form = await request.formData();
 
         // 최종 결과
         apiParams.data = {
             success: true,
-            dataSet,
         }
 
         // 결과 전달
@@ -49,7 +55,6 @@ const api = async (request: NextRequest) => {
     }
 
     catch (error: any) {
-        console.log(error)
         await conn.rollback();
         apiParams.error = error;
         apiParams.status = apiParams.status ? apiParams.status : 500;

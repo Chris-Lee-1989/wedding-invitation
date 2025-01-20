@@ -7,12 +7,12 @@ import crypto from "crypto-js";
 import { cryptoKey } from '@/configs/keys';
 
 // 폰트
-import { Parisienne, Gowun_Dodum } from 'next/font/google'
 import { Button, Input } from 'antd';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { onApiErrorModal } from '@/components/layout/CommonModal';
 import dayjs from 'dayjs';
+import { Parisienne, Gowun_Dodum } from 'next/font/google'
 const parisienne = Parisienne({ subsets: ['latin'], weight: ['400']});  
 const gowun = Gowun_Dodum({ subsets: ['latin'], weight: ['400']});
 

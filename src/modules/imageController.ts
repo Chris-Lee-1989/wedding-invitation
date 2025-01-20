@@ -1,6 +1,9 @@
 // AWS S3 설정
 import { S3Client, DeleteObjectCommand, PutObjectCommand, ListObjectsV2Command, CopyObjectCommand } from "@aws-sdk/client-s3";
 import dayjs from "dayjs";
+// sharp
+import sharp from "sharp";
+
 
 const Bucket = 'kkotfarm-dev-ops';
 const s3 = new S3Client({
@@ -45,4 +48,33 @@ interface onDeleteS3Props {
 export const onDeleteS3 = async ({ location }: onDeleteS3Props) => {
     const Key = location.replace(`https://${Bucket}.s3.ap-northeast-2.amazonaws.com/`, "");
     return await s3.send(new DeleteObjectCommand({ Bucket, Key }));
+}
+
+// 이미지를 webp로 변환 후 업로드
+export const convertWebpAndUpload = async (file: File) => {
+    // 이미지를 webp로 변환
+    const buffer = await sharp(await file.arrayBuffer()).webp({
+        quality: 90,
+        // lossless: true,
+        // nearLossless: true,
+        effort: 5,
+    }).toBuffer();
+    if (!buffer) {
+        throw new Error('이미지 변환에 실패했습니다.');
+    }
+    // 스트림을 사용하여 S3에 업로드
+    const Key = `wedding/${Date.now()}.webp`;
+    // S3에 업로드하고 결과 출력
+    await s3.send(
+        new PutObjectCommand({ 
+            Bucket,
+            Key,
+            Body: buffer,
+            ACL: 'public-read'
+        })
+    );
+    return {
+        result: true,
+        location: `https://${Bucket}.s3.ap-northeast-2.amazonaws.com/${Key}`,
+    }
 }
