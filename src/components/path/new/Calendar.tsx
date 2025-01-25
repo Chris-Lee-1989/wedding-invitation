@@ -13,12 +13,7 @@ const gowun = Gowun_Dodum({ subsets: ['latin'], weight: ['400']});
 const serif = PT_Serif({ subsets: ['latin'], weight: ['400']});
 
 let interval: any = null;
-
-interface Props {
-    image1: I_Images;
-    image2: I_Images;
-}
-const Components = ({ image1, image2 }: Props) => {
+const Components = () => {
 
     const calendarSize = 40;
     const [count, setCount] = React.useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
@@ -47,7 +42,7 @@ const Components = ({ image1, image2 }: Props) => {
                         data-aos="fade-up" data-aos-duration="800"
                         className="w-32 h-40 bg-gray-200 rounded-md"
                         style={{
-                            backgroundImage: `url("${image1.url}")`,
+                            backgroundImage: `url("/image/21.jpg")`,
                             backgroundPosition: '20% 27%',
                             backgroundSize: '325%',
                         }}
@@ -61,7 +56,7 @@ const Components = ({ image1, image2 }: Props) => {
                         data-aos="fade-up" data-aos-duration="800" data-aos-delay="100"
                         className="w-32 h-40 bg-gray-200 rounded-md"
                         style={{
-                            backgroundImage: `url("${image2.url}")`,
+                            backgroundImage: `url("/image/21.jpg")`,
                             backgroundPosition: '85% 20%',
                             backgroundSize: '300%',
                         }}
@@ -72,7 +67,7 @@ const Components = ({ image1, image2 }: Props) => {
 
                 <div className={`mt-28 mb-6 flex flex-col items-center justify-center ${gowun.className}`}>
                     <p data-aos="fade-up" data-aos-duration="800" className={`${parisienne.className} text-xl text-rose-300 w-full text-center`}>Calendar</p>
-                    <p data-aos="fade-up" data-aos-duration="800" className={`mt-6 text-sm font-bold`}>2025년 3월 29일 토요일 오후 1시</p>
+                    <p data-aos="fade-up" data-aos-duration="800" className={`mt-6 text-sm font-bold`}>2025년 3월 29일 토요일 오후 2시</p>
                 </div>
 
                 <div className="flex flex-wrap items-center justify-start" style={{width: calendarSize * 7, margin: 'auto'}}> 

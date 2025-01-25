@@ -1,36 +1,33 @@
 "use client"
-import React, { Fragment, useMemo } from 'react';
-import {Image, Modal} from 'antd';
+import React, { Fragment } from 'react';
+import Image from 'next/image';
+import {Image as AntdImage} from 'antd';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import { IoMdClose } from "react-icons/io";
 
 // 폰트
-import { Parisienne, Gowun_Dodum, PT_Serif } from 'next/font/google'
-import dayjs from 'dayjs';
+import { Parisienne } from 'next/font/google'
 import Connection from '@/components/layout/Connection';
+import dayjs from 'dayjs';
+import { useSize, useTimeout, useUpdateEffect } from 'ahooks';
+import { LoadingOutlined } from '@ant-design/icons';
 const parisienne = Parisienne({ subsets: ['latin'], weight: ['400']});  
-const gowun = Gowun_Dodum({ subsets: ['latin'], weight: ['400']});
-const serif = PT_Serif({ subsets: ['latin'], weight: ['400']});
-import { IoCloseOutline } from "react-icons/io5";
-import { RiArrowRightWideLine, RiArrowLeftWideLine } from "react-icons/ri";
-import { useUpdateEffect } from 'ahooks';
 
-interface Props {
-    gallery: I_Images[];
-}
-const Components = ({ gallery }: Props) => {
+const Components = () => {
 
-    const [popup, setPopup] = React.useState({open: false, index: 0});
-
-    const imageArr = useMemo(() => {
-        const result = [];
-        for (let i = 0; i < gallery.length; i += 5) {
-            result.push(gallery.slice(i, i + 2));
-            result.push(gallery.slice(i + 2, i + 5));
-        }
-        return result;
-    }, [gallery]);
-
+    const size = useSize(typeof window !== "undefined" ? document.body : undefined);
     const columnWidth = 165;
     const itemHeight = 165 * 1.4;
+
+    const [open, setOpen] = React.useState<boolean>(false);
+    const [idx, setIdx] = React.useState<number>(0);
+
+    const onClickImage = (idx: number) => {
+        setIdx(idx);
+        setOpen(true);
+    }
+
     return (
         <Fragment>
             <div className="w-full pt-32 pb-40" style={{background: '#fff'}}>
@@ -38,168 +35,127 @@ const Components = ({ gallery }: Props) => {
                     <div className={`flex justify-center items-center`} style={{height: '10vh'}}>
                         <p data-aos="fade-up" data-aos-duration="800" className={`${parisienne.className} w-full text-center text-2xl text-rose-300`}>Gallery</p>
                     </div>
-                   
-                    <Image.PreviewGroup >
-                    <div className="flex-1 px-2" data-aos="fade-up" data-aos-duration="800">
-                        <div className="w-full h-full overflow-y-hidden overflow-x-auto">
-                            <div className="flex w-full h-full gap-2" style={{width: (columnWidth * imageArr.length) + (8 * (imageArr.length - 1))}}>
-                            {imageArr.map((arr, idx) => {
-                                return (
-                                    <div 
-                                        key={`col-${idx}`}
-                                        className="flex flex-col gap-2 h-full"
-                                        style={{
-                                            width: columnWidth,
-                                        }}
+                    <div style={{maxWidth: '100dvw', overflowX: 'auto'}} className="px-2 flex">
+                        <div style={{width: columnWidth * 10 + 8 * 9}} className="flex gap-2">
+                        {(() => {
+                            let items = [];
+                            let objectPosition = [];
+                            for (let i=0; i<=25; i++){
+                                if (i === 8) objectPosition.push(`50% 10%`);
+                                else if (i === 9) objectPosition.push(`50% 20%`);
+                                else if (i === 10) objectPosition.push(`50% 60%`);
+                                else if (i === 15) objectPosition.push(`50% 0%`);
+                                else if (i === 18) objectPosition.push(`50% 10%`);
+                                else if (i === 20) objectPosition.push(`50% 0%`);
+                                else if (i === 25) objectPosition.push(`50% 20%`);
+                                else objectPosition.push(`50% 50%`);
+                            }
+                            for (let i=0; i<5; i++){
+                                items.push(
+                                    <div key={i}
+                                        className="flex gap-2" 
+                                        style={{width: columnWidth * 2 + 8}}
                                     >
-                                    {(() => {
-                                        const returnMap = [];
-                                        if (arr.length === 2) {
-                                            returnMap.push(
-                                                <Image 
-                                                    key={`${idx}-0`} 
-                                                    style={{borderRadius: 8, objectFit: "cover", overflow: "hidden"}}
-                                                    src={arr[0].url}
-                                                    width={columnWidth}
-                                                    height={itemHeight + 4}
-                                                />
-                                            )
-                                            returnMap.push(
-                                                <Image 
-                                                    key={`${idx}-1`} 
-                                                    style={{borderRadius: 8, objectFit: "cover", overflow: "hidden"}}
-                                                    src={arr[1].url}
-                                                    width={columnWidth}
-                                                    height={itemHeight + 4}
-                                                />
-                                            )
-                                        } else {
-
-                                            returnMap.push(
-                                                <Image 
-                                                    style={{borderRadius: 8, objectFit: "cover", overflow: "hidden"}}
-                                                    key={`${idx}-0`} 
-                                                    src={arr[0].url}
-                                                    width={columnWidth}
-                                                    height={itemHeight * 0.7}
-                                                />
-                                            )
-                                            returnMap.push(
-                                                <Image 
-                                                    key={`${idx}-1`} 
-                                                    style={{borderRadius: 8, objectFit: "cover", overflow: "hidden"}}
-                                                    src={arr[1].url}
-                                                    width={columnWidth}
-                                                    height={itemHeight * 0.6}
-                                                />
-                                            )
-                                            returnMap.push(
-                                                <Image 
-                                                    key={`${idx}-2`} 
-                                                    style={{borderRadius: 8, objectFit: "cover", overflow: "hidden"}}
-                                                    src={arr[2].url}
-                                                    width={columnWidth}
-                                                    height={itemHeight * 0.7}
-                                                />
-                                            )
-                                        }
-                                        return returnMap;
-                                    })()}
+                                        <div className="flex flex-col gap-2" style={{width: columnWidth, height: (itemHeight * 2) + 4}}>
+                                            <Image onClick={() => onClickImage((i*5)+1)} className="rounded-md" src={`/image/${(i*5)+1}.jpg`} alt={`image-${(i*5)+1}`} width={columnWidth} height={itemHeight} style={{width: columnWidth, height: itemHeight, objectFit: 'cover', objectPosition: objectPosition[(i*5)+1]}} />
+                                            <Image onClick={() => onClickImage((i*5)+2)} className="rounded-md" src={`/image/${(i*5)+2}.jpg`} alt={`image-${(i*5)+2}`} width={columnWidth} height={itemHeight} style={{width: columnWidth, height: itemHeight, objectFit: 'cover', objectPosition: objectPosition[(i*5)+2]}} />
+                                        </div>
+                                        <div className="flex flex-col gap-2">
+                                            <Image onClick={() => onClickImage((i*5)+3)} className="rounded-md" src={`/image/${(i*5)+3}.jpg`} alt={`image-${(i*5)+3}`} width={columnWidth} height={itemHeight * 0.6 -4} style={{width: columnWidth, height: itemHeight * 0.6 -4, objectFit: 'cover', objectPosition: objectPosition[(i*5)+3]}} />
+                                            <Image onClick={() => onClickImage((i*5)+4)} className="rounded-md" src={`/image/${(i*5)+4}.jpg`} alt={`image-${(i*5)+4}`} width={columnWidth} height={itemHeight * 0.8} style={{width: columnWidth, height: itemHeight * 0.8, objectFit: 'cover', objectPosition: objectPosition[(i*5)+4]}} />
+                                            <Image onClick={() => onClickImage((i*5)+5)} className="rounded-md" src={`/image/${(i*5)+5}.jpg`} alt={`image-${(i*5)+5}`} width={columnWidth} height={itemHeight * 0.6 -4} style={{width: columnWidth, height: itemHeight * 0.6 -4, objectFit: 'cover', objectPosition: objectPosition[(i*5)+5]}} />
+                                        </div>
                                     </div>
                                 )
-                            })}
-                            </div>
+                            }
+                            return items;
+                        })()}
                         </div>
-                    </div>       
-                    </Image.PreviewGroup>         
+                    </div>
                 </div>
             </div>
             <div className="w-full h-4 absolute z-10 -translate-y-4" style={{maxWidth: 400}} >
                 <Connection color="#f8fafc" />
             </div>
-            <Popup open={popup.open} close={() => setPopup({...popup, open: false})} index={popup.index} gallery={gallery} />
+            {size && <ImageModal open={open} close={() => { setOpen(false); }} idx={idx} width={size.width} height={size.height} />}
         </Fragment>
     )
 }
 
-interface PopupProps extends Props {
+interface ImageModalProps {
     open: boolean;
+    idx: number;
+    width: number;
+    height: number;
     close: () => void;
-    index: number;
 }
-const Popup = ({ open, close, index, gallery }: PopupProps) => {
+const ImageModal = ({ open, close, width, height, idx}: ImageModalProps) => {
 
-    const [current, setCurrent] = React.useState(index);
-    useUpdateEffect(() => {setCurrent(index)} , [index]);
-    const item = gallery[current];
-
-    const onClickIndexButton = (type: string) => {
-        if (type === 'prev') {
-            current !== 0 && setCurrent(current - 1);
-        } else {
-            gallery.length - 1 > current && setCurrent(current + 1);
-        }
-    }
-
-    return (
-        <Modal
-            open={open}
-            onCancel={close}
-            centered
-            footer={null}
-            width="95dvw"
-            height="95dvh"
-            closable={false}
-            styles={{
-                content: {
-                    padding: 0,
-                }
-            }}
-        >
+    const [loading, setLoading] = React.useState<boolean>(true);
+    if (!open) return <></>
+    else {
+        return (
             <div 
-                className="flex flex-col"
-                style={{
-                    width: '100%', 
-                    height: '95dvh',
-                    backgroundImage: `url(${item.url})`,
-                    backgroundSize: 'contain',
-                    backgroundPosition: 'center',
-                    backgroundRepeat: 'no-repeat',
+                onClick={() => {
+                    setLoading(false)
+                    close();
                 }}
+                className={`w-dvw h-dvh fixed top-0 left-0 z-40 bg-black`}
+                // style={{
+                //     backgroundImage: `url("/image/${idx}.jpg")`,
+                //     backgroundSize: 'contain',
+                //     backgroundPosition: 'center',
+                //     backgroundRepeat: 'no-repeat',
+                // }}
             >
-                <div className="flex justify-end p-2">
+                <div className="absolute top-4 right-4 z-50">
+                    <IoMdClose style={{fontSize: 28, color: "#fff"}} />
+                </div>
+                <Swiper
+                    initialSlide={idx-1}
+                    spaceBetween={0}
+                    slidesPerView={1}
+                    onSlideChange={() => {
+
+                    }}
+                    onSwiper={(swiper) => {
+
+                    }}
+                >
+                    {(() => {
+                        let items = [];
+                        for (let i=1; i<=25; i++){
+                            items.push(
+                                <SwiperSlide key={i}>
+                                    <div className="w-dvw h-dvh flex items-center justify-center bg-black">
+                                        <Image src={`/image/${i}.jpg`} alt={`image-${i}`} width={width} height={height} />
+                                    </div>
+                                </SwiperSlide>
+                            )
+                        }
+                        return items;
+                    })()}
+                </Swiper>
+
+                {/* {loading && 
                     <div 
-                        style={{
-                            background: 'rgba(0,0,0,0.05)'
-                        }}
-                        className="p-2 cursor-pointer rounded-md transition-all duration-200 active:bg-slate-50" onClick={close}
+                        className="w-dvw h-dvh fixed top-0 left-0 z-50 bg-black flex items-center justify-center"
                     >
-                        <IoCloseOutline className="text-white font-bold text-3xl" />
+                        <LoadingOutlined style={{ color: '#666', fontSize: 50 }} />
                     </div>
-                </div>
-                <div className="flex-1 flex ">
-                    <div 
-                        onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            onClickIndexButton('prev')
-                        }} 
-                        className="w-16 flex justify-center items-center cursor-pointer">
-                        <RiArrowLeftWideLine className="text-white font-bold text-2xl" />
-                    </div>
-                    <div className="flex-1"></div>
-                    <div 
-                        onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            onClickIndexButton('next')
-                        }} 
-                        className="w-16 flex justify-center items-center cursor-pointer">
-                        <RiArrowRightWideLine className="text-white font-bold text-2xl" />
-                    </div>
-                </div>
+                }
+                <Image 
+                    src={`/image/${idx}.jpg`} 
+                    alt={`image-${idx}`} 
+                    width={width} 
+                    height={height} 
+                    onLoad={() => {
+                        setLoading(false);
+                    }}
+                /> */}
             </div>
-        </Modal>
-    )
+        )
+    }
 }
+
 export default React.memo(Components);

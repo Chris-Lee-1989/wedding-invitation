@@ -25,24 +25,6 @@ import axios from 'axios';
 let isAutoPlay = true;
 const Components = () => {
 
-    // 이미지 조회
-    const fetch1 = useQuery({
-        queryKey: ['getImages'],
-        queryFn: async () => {
-            const res = await axios.get(`/api/images`);
-            return res.data?.dataSet || [];
-        }
-    });
-
-    const images: I_Images[] = fetch1.data||[];
-    const { mainImage, calendarImage1, calendarImage2, gallery } = useMemo(() => {
-            const mainImage = images.filter((v) => v.type === '01')[0];
-            const calendarImage1 = images.filter((v) => v.type === '02' && v.sort === 0)[0];
-            const calendarImage2 = images.filter((v) => v.type === '02' && v.sort === 1)[0];
-            const gallery = images.filter((v) => v.type === '03');
-            return { mainImage, calendarImage1, calendarImage2, gallery }
-    }, [images]);
-
     // AOS
     useMount(() => {
         AOS.init();
@@ -75,7 +57,6 @@ const Components = () => {
     })
 
     return (
-        fetch1.isSuccess ? 
         <div>
             <input type="hidden" id="audio" value="on" />
             <audio ref={audioRef} src="/bgm.mp3" loop />
@@ -93,18 +74,16 @@ const Components = () => {
                 }}
                 icon={isPlay ? <HiOutlineSpeakerWave /> : <HiOutlineSpeakerXMark />}
             />
-            {mainImage && <Main image={mainImage} />}
+            <Main />
             <Text />
-            {calendarImage1 && calendarImage2 && <Calendar image1={calendarImage1} image2={calendarImage2} />}
-            {gallery.length > 0 && <Gallery gallery={gallery} />}
+            <Calendar />
+            <Gallery />
             <Map />
-            <Transportation />
-            <Infomation />
+            {/* <Transportation /> */}
+            {/* <Infomation /> */}
             <Accounts />
             <Board />
         </div>
-        :
-        <></>
     )
     
 }

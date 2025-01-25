@@ -1,33 +1,21 @@
 "use client"
-import React, { Fragment, useMemo, useRef } from 'react';
+import React, { Fragment, useRef } from 'react';
 
 // 폰트 설정
-import { Single_Day, Marck_Script, Cormorant, Pacifico, Gowun_Dodum, Niconne } from 'next/font/google'
+import { Cormorant, Niconne } from 'next/font/google'
 import { useSize } from 'ahooks';
 import Connection from '@/components/layout/Connection';
-import { Image } from 'antd';
 const serif = Cormorant({ subsets: ['latin'], weight: ['400','700']});
-const marck = Marck_Script({ subsets: ['latin'], weight: ['400']});
-const singleDay = Single_Day({ weight: ['400']});
 const niconne = Niconne({ subsets: ['latin'], weight: ['400']});
-const gowun = Gowun_Dodum({ subsets: ['latin'], weight: ['400']});
 
-import { TbArrowCurveLeft } from "react-icons/tb";
-import { PiArrowBendDoubleUpRight } from "react-icons/pi";
-
-interface Props {
-    image: I_Images;
-}
-const Components = ({ image }: Props) => {
+const Components = () => {
 
     const containerRef: any = useRef();
     const size = useSize(containerRef);
     const height = size?.width ? size.width * 1.67 : 0;
-    const width = size?.width ? size.width : 0;
 
     const size1 = useSize(document.body);
     const width1 = size1?.width ? size1.width : 0;
-    const width2 = (width1 - 400) / 2
 
     return (
         <Fragment>
@@ -37,7 +25,7 @@ const Components = ({ image }: Props) => {
                 style={{
                     width: '100%',
                     height: height,
-                    backgroundImage: `url('${image.url}')`,
+                    backgroundImage: `url("/image/2.jpg")`,
                     backgroundPosition: 'center',
                     backgroundSize: 'cover',
                 }}
