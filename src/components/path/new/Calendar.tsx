@@ -68,6 +68,7 @@ const Components = () => {
                 <div className={`mt-28 mb-6 flex flex-col items-center justify-center ${gowun.className}`}>
                     <p data-aos="fade-up" data-aos-duration="800" className={`${parisienne.className} text-xl text-rose-300 w-full text-center`}>Calendar</p>
                     <p data-aos="fade-up" data-aos-duration="800" className={`mt-6 text-sm font-bold`}>2025년 3월 29일 토요일 오후 2시</p>
+                    <p data-aos="fade-up" data-aos-duration="800" className={`text-sm font-bold mt-1`}>엘리에나 호텔 2층 컨벤션홀 </p>
                 </div>
 
                 <div className="flex flex-wrap items-center justify-start" style={{width: calendarSize * 7, margin: 'auto'}}> 

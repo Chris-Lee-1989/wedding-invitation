@@ -1,10 +1,10 @@
 "use client"
-import React, { Fragment, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 
 // AOS
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { useMount, useTimeout, useUnmount, useUpdateEffect } from 'ahooks';
+import { useMount, useUnmount } from 'ahooks';
 
 import Main from './Main';
 import Text from './Text';
@@ -12,15 +12,10 @@ import Gallery from './Gallery';
 import Board from './Board';
 import Map from './Map';
 import Calendar from './Calendar';
-import Transportation from './Transportation';
-import Infomation from './Infomation';
 import { FloatButton } from 'antd';
-import { FaPlay } from "react-icons/fa6";
-import { FaPause } from "react-icons/fa";
 import { HiOutlineSpeakerWave, HiOutlineSpeakerXMark } from "react-icons/hi2";
 import Accounts from './Accounts';
-import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
+
 
 let isAutoPlay = true;
 const Components = () => {
@@ -47,13 +42,24 @@ const Components = () => {
         }
     }, []);
 
+    const handleVisibilityChange = () => {
+        isAutoPlay = false;
+        audioRef.current?.pause();
+        setIsPlay(false);
+    };
 
     useMount(() => {
+        
+
+        document.addEventListener('visibilitychange', handleVisibilityChange);
         document.addEventListener('scroll', onPlay);
+        
     });
 
     useUnmount(() => {
         document.removeEventListener('scroll', onPlay);
+        document.removeEventListener('visibilitychange', handleVisibilityChange);
+
     })
 
     return (

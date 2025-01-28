@@ -59,7 +59,7 @@ export const initMap = async ({lat, lng}: {lat: number, lng: number}) => {
     map.setOptions("zoomControl", false);
 
     window.naver.maps.Event.addListener(map, 'click', (zoom: number) => {
-       console.log(map.getCenter());
+        
     });
 
     return map;

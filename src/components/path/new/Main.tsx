@@ -1,10 +1,11 @@
 "use client"
-import React, { Fragment, useRef } from 'react';
+import React, { Fragment, useRef, useState } from 'react';
 
 // 폰트 설정
 import { Cormorant, Niconne } from 'next/font/google'
-import { useSize } from 'ahooks';
+import { useSize, useUpdateEffect } from 'ahooks';
 import Connection from '@/components/layout/Connection';
+import { LoadingOutlined } from '@ant-design/icons';
 const serif = Cormorant({ subsets: ['latin'], weight: ['400','700']});
 const niconne = Niconne({ subsets: ['latin'], weight: ['400']});
 
@@ -13,12 +14,30 @@ const Components = () => {
     const containerRef: any = useRef();
     const size = useSize(containerRef);
     const height = size?.width ? size.width * 1.67 : 0;
-
-    const size1 = useSize(document.body);
-    const width1 = size1?.width ? size1.width : 0;
+    
+    // 이미지 로드 여부
+    const [init, setInit] = useState(false);
+    const [imageLoaded, setImageLoaded] = useState(false);
+    useUpdateEffect(() => {
+        if (imageLoaded) {
+            setTimeout(() => {
+                setInit(true);
+            }, 300);
+        }
+    }, [imageLoaded]);
+    useUpdateEffect(() => {
+        if (height) {
+            setImageLoaded(true);
+        }
+    }, [height])
 
     return (
         <Fragment>
+            {!init && (
+                <div className={`fixed top-0 left-0 z-50 w-dvw h-dvh flex items-center justify-center bg-black transition-all duration-300 ${imageLoaded ? 'opacity-0' : 'opacity-100'}`}>
+                    <LoadingOutlined style={{fontSize: 40, color: '#fcd34d'}} />
+                </div>
+            )}
             <div 
                 ref={containerRef}
                 className={`flex flex-col`}

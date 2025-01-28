@@ -75,7 +75,11 @@ const Components = () => {
     // 삭제 로직
     const action2 = useMutation({
         mutationFn: async (props: {rowKey: string; password: string;}) => {
-            const res = await axios.delete(`/api/guestbook/${props.rowKey}?password=${crypto.AES.encrypt(props.password, cryptoKey).toString()}`);
+            const res = await axios.delete(`/api/guestbook/${props.rowKey}`, {
+                params: {
+                    password: crypto.AES.encrypt(props.password, cryptoKey).toString(),
+                }
+            });
             return res.data;
         },
         onSuccess(data, variables, context) {
